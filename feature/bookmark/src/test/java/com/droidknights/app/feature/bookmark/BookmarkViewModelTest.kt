@@ -48,9 +48,8 @@ class BookmarkViewModelTest {
         // given & when
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // then
         viewModel.bookmarkUiState.test {
@@ -76,9 +75,8 @@ class BookmarkViewModelTest {
         // given
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         viewModel.bookmarkUiState.test {
             val initialIsEditMode = (awaitItem() as BookmarkUiState.Success).isEditMode
@@ -98,9 +96,8 @@ class BookmarkViewModelTest {
         // given
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // when
         viewModel.selectSession(mockSession1)
@@ -120,9 +117,9 @@ class BookmarkViewModelTest {
         // given
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
+
         viewModel.selectSession(mockSession1)
 
         // when
@@ -144,9 +141,9 @@ class BookmarkViewModelTest {
         coEvery { deleteBookmarkedSessionUseCase(persistentSetOf("1")) } just Runs
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
+
         viewModel.selectSession(mockSession1)
 
         // when
@@ -167,9 +164,8 @@ class BookmarkViewModelTest {
         coEvery { navigator.navigate(RouteSession(sessionId = mockSession2.id)) } just Runs
         viewModel = BookmarkViewModel(
             getBookmarkedSessionsUseCase,
-            deleteBookmarkedSessionUseCase,
-            navigator
-        )
+            deleteBookmarkedSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // when
         viewModel.redirectToSessionScreen(mockSession2)
