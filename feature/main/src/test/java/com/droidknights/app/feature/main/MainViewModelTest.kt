@@ -35,7 +35,8 @@ class MainViewModelTest {
     fun setup() {
         // given
         every { settingsRepository.flowIsDarkTheme() } returns flowOf(false)
-        viewModel = MainViewModel(settingsRepository, navigator)
+        viewModel = MainViewModel(settingsRepository)
+        viewModel.injectNavigator(navigator)
     }
 
     @Test
@@ -52,7 +53,7 @@ class MainViewModelTest {
         coEvery { navigator.navigate(RouteSessionDetail(fakeSessionId)) } just Runs
 
         // when
-        viewModel.navigateSessionDetail(fakeSessionId)
+        viewModel.navigateTo(RouteSessionDetail(fakeSessionId))
 
         // then
         coVerify(exactly = 1) { navigator.navigate(RouteSessionDetail(fakeSessionId)) }
@@ -70,7 +71,11 @@ class MainViewModelTest {
         } just Runs
 
         // when
-        viewModel.navigateSetting()
+        viewModel.navigateTo(
+            route = RouteSetting,
+            saveState = true,
+            launchSingleTop = true
+        )
 
         // then
         coVerify(exactly = 1) {
@@ -94,14 +99,18 @@ class MainViewModelTest {
         } just Runs
 
         // when
-        viewModel.navigateBookmark()
+        viewModel.navigateTo(
+            route = RouteBookmark,
+            saveState = true,
+            launchSingleTop = true
+        )
 
         // then
         coVerify(exactly = 1) {
             navigator.navigate(
                 route = RouteBookmark,
                 saveState = true,
-                launchSingleTop = true,
+                launchSingleTop = true
             )
         }
     }
@@ -118,7 +127,11 @@ class MainViewModelTest {
         } just Runs
 
         // when
-        viewModel.navigateHome()
+        viewModel.navigateTo(
+            route = RouteHome,
+            saveState = true,
+            launchSingleTop = true
+        )
 
         // then
         coVerify(exactly = 1) {
