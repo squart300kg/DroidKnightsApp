@@ -12,4 +12,5 @@ android {
 dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.domain.domainSessionApi)
+    implementation(projects.core.router.routerApi)
 }
