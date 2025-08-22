@@ -60,9 +60,8 @@ class SessionDetailViewModelTest {
         viewModel = SessionDetailViewModel(
             getSessionUseCase,
             getBookmarkedSessionIdsUseCase,
-            bookmarkSessionUseCase,
-            navigator,
-        )
+            bookmarkSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // when
         viewModel.fetchSession(sessionId)
@@ -83,9 +82,8 @@ class SessionDetailViewModelTest {
         viewModel = SessionDetailViewModel(
             getSessionUseCase,
             getBookmarkedSessionIdsUseCase,
-            bookmarkSessionUseCase,
-            navigator,
-        )
+            bookmarkSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // when
         viewModel.fetchSession(sessionId)
@@ -112,9 +110,9 @@ class SessionDetailViewModelTest {
         viewModel = SessionDetailViewModel(
             getSessionUseCase,
             getBookmarkedSessionIdsUseCase,
-            bookmarkSessionUseCase,
-            navigator,
-        )
+            bookmarkSessionUseCase
+        ).also { it.injectNavigator(navigator) }
+
         viewModel.fetchSession(sessionId)
 
         // when
@@ -134,9 +132,8 @@ class SessionDetailViewModelTest {
         viewModel = SessionDetailViewModel(
             getSessionUseCase,
             getBookmarkedSessionIdsUseCase,
-            bookmarkSessionUseCase,
-            navigator,
-        )
+            bookmarkSessionUseCase
+        ).also { it.injectNavigator(navigator) }
 
         // when
         viewModel.navigateBack()
