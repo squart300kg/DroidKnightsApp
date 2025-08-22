@@ -1,5 +1,6 @@
 package com.droidknights.app.core.ui
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.droidknights.app.core.router.api.Navigator
@@ -13,11 +14,16 @@ import javax.inject.Inject
 @HiltViewModel
 open class BaseViewModel @Inject constructor(): ViewModel() {
 
+  protected val _errorFlow = MutableSharedFlow<Throwable>()
+  val errorFlow = _errorFlow.asSharedFlow()
+
   @Inject
   lateinit var navigator: Navigator
 
-  protected val _errorFlow = MutableSharedFlow<Throwable>()
-  val errorFlow = _errorFlow.asSharedFlow()
+  @VisibleForTesting
+  fun injectNavigator(navigator: Navigator) {
+    this.navigator = navigator
+  }
 
   fun navigateBack() = viewModelScope.launch {
     navigator.navigateBack()
