@@ -12,35 +12,31 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-open class BaseViewModel
+open class BaseViewModel @Inject constructor() : ViewModel() {
+    protected val internalErrorFlow = MutableSharedFlow<Throwable>()
+    val errorFlow = internalErrorFlow.asSharedFlow()
+
     @Inject
-    constructor() : ViewModel() {
-        protected val _errorFlow = MutableSharedFlow<Throwable>()
-        val errorFlow = _errorFlow.asSharedFlow()
+    lateinit var navigator: Navigator
 
-        @Inject
-        lateinit var navigator: Navigator
-
-        @VisibleForTesting
-        fun injectNavigator(navigator: Navigator) {
-            this.navigator = navigator
-        }
-
-        fun navigateBack() =
-            viewModelScope.launch {
-                navigator.navigateBack()
-            }
-
-        fun navigateWeb(url: String) =
-            viewModelScope.launch {
-                navigator.navigateWeb(url)
-            }
-
-        fun navigateTo(
-            route: Route,
-            saveState: Boolean = false,
-            launchSingleTop: Boolean = false,
-        ) = viewModelScope.launch {
-            navigator.navigate(route, saveState, launchSingleTop)
-        }
+    @VisibleForTesting
+    fun injectNavigator(navigator: Navigator) {
+        this.navigator = navigator
     }
+
+    fun navigateBack() = viewModelScope.launch {
+        navigator.navigateBack()
+    }
+
+    fun navigateWeb(url: String) = viewModelScope.launch {
+        navigator.navigateWeb(url)
+    }
+
+    fun navigateTo(
+        route: Route,
+        saveState: Boolean = false,
+        launchSingleTop: Boolean = false
+    ) = viewModelScope.launch {
+            navigator.navigate(route, saveState, launchSingleTop)
+    }
+}

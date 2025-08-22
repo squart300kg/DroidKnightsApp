@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
             .catch { throwable ->
-                _errorFlow.emit(throwable)
+                internalErrorFlow.emit(throwable)
             }
             .stateIn(
                 scope = viewModelScope,

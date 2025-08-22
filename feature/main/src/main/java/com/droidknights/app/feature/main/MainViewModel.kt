@@ -11,5 +11,4 @@ internal class MainViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val isDarkTheme = settingsRepository.flowIsDarkTheme()
-
 }

@@ -67,7 +67,7 @@ class BookmarkViewModel @Inject constructor(
                     }
                 }
             }.catch { throwable ->
-                _errorFlow.emit(throwable)
+                internalErrorFlow.emit(throwable)
             }.collect { _bookmarkUiState.value = it }
         }
     }
@@ -116,7 +116,7 @@ class BookmarkViewModel @Inject constructor(
                 state.copy(selectedSessionIds = persistentSetOf())
             }
         }.catch { throwable ->
-            _errorFlow.emit(throwable)
+            internalErrorFlow.emit(throwable)
         }.launchIn(viewModelScope)
     }
 

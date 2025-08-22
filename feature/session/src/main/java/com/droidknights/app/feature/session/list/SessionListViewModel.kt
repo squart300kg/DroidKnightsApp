@@ -40,7 +40,7 @@ class SessionListViewModel @Inject constructor(
             )
         }
             .catch { throwable ->
-                _errorFlow.emit(throwable)
+                internalErrorFlow.emit(throwable)
             }
             .onEach { combinedUiState ->
                 _uiState.value = combinedUiState
