@@ -15,10 +15,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.droidknights.app.feature.contributor.api.RouteContributor
 import com.droidknights.app.feature.home.component.ContributorCard
 import com.droidknights.app.feature.home.component.SessionCard
 import com.droidknights.app.feature.home.component.SponsorCard
 import com.droidknights.app.feature.home.model.SponsorsUiState
+import com.droidknights.app.feature.session.api.RouteSession
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -35,9 +37,9 @@ internal fun HomeRoute(
     HomeScreen(
         padding = padding,
         sponsorsUiState = sponsorsUiState,
-        onSessionClick = viewModel::navigateSession,
-        onContributorClick = viewModel::navigateContributor,
-        onOrganizationSponsorClick = viewModel::navigateOrganizationSponsor,
+        onSessionClick = { viewModel.navigateTo(RouteSession()) },
+        onContributorClick = { viewModel.navigateTo(RouteContributor) },
+        onOrganizationSponsorClick = viewModel::navigateWeb,
     )
 }
 
