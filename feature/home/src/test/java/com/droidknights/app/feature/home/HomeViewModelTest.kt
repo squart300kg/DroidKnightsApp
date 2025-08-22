@@ -30,7 +30,9 @@ internal class HomeViewModelTest {
     fun `후원사 리스트가 비어있다면 후원사 데이터를 확인할 수 없다`() = runTest {
         // given
         coEvery { getSponsorsUseCase() } returns emptyList()
-        viewModel = HomeViewModel(getSponsorsUseCase, navigator)
+        viewModel = HomeViewModel(getSponsorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when & then
         viewModel.sponsorsUiState.test {
@@ -43,7 +45,9 @@ internal class HomeViewModelTest {
     fun `후원사 리스트가 존재한다면 후원사 데이터를 확인할 수 있다`() = runTest {
         // given
         coEvery { getSponsorsUseCase() } returns fakeSponsors
-        viewModel = HomeViewModel(getSponsorsUseCase, navigator)
+        viewModel = HomeViewModel(getSponsorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when & then
         viewModel.sponsorsUiState.test {
@@ -56,10 +60,12 @@ internal class HomeViewModelTest {
     fun `navigate(RouteSession)가 호출될 때 navigator에게 위임한다`() = runTest {
         // given
         coEvery { navigator.navigate(RouteSession()) } just Runs
-        viewModel = HomeViewModel(getSponsorsUseCase, navigator)
+        viewModel = HomeViewModel(getSponsorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when
-        viewModel.navigateSession()
+        viewModel.navigateTo(RouteSession())
 
         // then
         coVerify(exactly = 1) { navigator.navigate(RouteSession()) }
@@ -69,10 +75,12 @@ internal class HomeViewModelTest {
     fun `navigate(RouteContributor)가 호출될 때 navigator에게 위임한다`() = runTest {
         // given
         coEvery { navigator.navigate(RouteContributor) } just Runs
-        viewModel = HomeViewModel(getSponsorsUseCase, navigator)
+        viewModel = HomeViewModel(getSponsorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when
-        viewModel.navigateContributor()
+        viewModel.navigateTo(RouteContributor)
 
         // then
         coVerify(exactly = 1) { navigator.navigate(RouteContributor) }
