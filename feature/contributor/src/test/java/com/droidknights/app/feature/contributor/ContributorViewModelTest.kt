@@ -31,7 +31,9 @@ internal class ContributorViewModelTest {
     fun `컨트리뷰터 데이터를 확인할 수 있다`() = runTest {
         // given
         coEvery { getContributorsUseCase() } returns flowOf(fakeContributors)
-        viewModel = ContributorViewModel(getContributorsUseCase, navigator)
+        viewModel = ContributorViewModel(getContributorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when & then
         viewModel.uiState.test {
@@ -44,7 +46,9 @@ internal class ContributorViewModelTest {
     fun `navigateBack이 호출될 때 navigator에게 위임한다`() = runTest {
         // suspend 함수 호출에 대한 stub
         coEvery { navigator.navigateBack() } just Runs
-        viewModel = ContributorViewModel(getContributorsUseCase, navigator)
+        viewModel = ContributorViewModel(getContributorsUseCase).also {
+            it.injectNavigator(navigator)
+        }
 
         // when
         viewModel.navigateBack()
