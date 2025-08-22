@@ -12,6 +12,7 @@ import com.droidknights.app.core.designsystem.theme.KnightsTheme
 import com.droidknights.app.core.router.LaunchedRouter
 import com.droidknights.app.feature.bookmark.api.RouteBookmark
 import com.droidknights.app.feature.home.api.RouteHome
+import com.droidknights.app.feature.session.api.RouteSessionDetail
 import com.droidknights.app.feature.setting.api.RouteSetting
 import com.droidknights.app.widget.DroidKnightsWidget.Companion.KEY_SESSION_ID
 import com.droidknights.app.widget.sendWidgetUpdateCommand
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(sessionId) {
                 sessionId?.let {
-                    viewModel.navigateSessionDetail(it)
+                    viewModel.navigateTo(RouteSessionDetail(it))
                 }
             }
 
@@ -56,9 +57,21 @@ class MainActivity : ComponentActivity() {
                     navigator = navigator,
                     onTabSelected = {
                         when (it.route) {
-                            is RouteSetting -> viewModel.navigateSetting()
-                            is RouteBookmark -> viewModel.navigateBookmark()
-                            is RouteHome -> viewModel.navigateHome()
+                            is RouteSetting -> viewModel.navigateTo(
+                                route = RouteSetting,
+                                saveState = true,
+                                launchSingleTop = true
+                            )
+                            is RouteBookmark -> viewModel.navigateTo(
+                                route = RouteBookmark,
+                                saveState = true,
+                                launchSingleTop = true
+                            )
+                            is RouteHome -> viewModel.navigateTo(
+                                route = RouteHome,
+                                saveState = true,
+                                launchSingleTop = true
+                            )
                         }
                     },
                 )
