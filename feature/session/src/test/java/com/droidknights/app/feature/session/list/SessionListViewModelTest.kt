@@ -53,9 +53,8 @@ internal class SessionListViewModelTest {
         // given
         viewModel = SessionListViewModel(
             getSessionsUseCase,
-            getBookmarkedSessionIdsUseCase,
-            navigator,
-        )
+            getBookmarkedSessionIdsUseCase
+        ).also { it.injectNavigator(navigator) }
     }
 
     @Test
