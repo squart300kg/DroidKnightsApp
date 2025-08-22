@@ -1,9 +1,8 @@
 package com.droidknights.app.feature.contributor
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.droidknights.app.core.domain.contributor.usecase.api.GetContributorsUseCase
-import com.droidknights.app.core.router.api.Navigator
+import com.droidknights.app.core.ui.BaseViewModel
 import com.droidknights.app.feature.contributor.model.ContributorsUiState
 import com.droidknights.app.feature.contributor.model.convert.toContributorsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,12 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContributorViewModel @Inject constructor(
-    getContributorsUseCase: GetContributorsUseCase,
-    private val navigator: Navigator,
-) : ViewModel() {
-
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    val errorFlow = _errorFlow.asSharedFlow()
+    getContributorsUseCase: GetContributorsUseCase
+) : BaseViewModel() {
 
     val uiState: StateFlow<ContributorsUiState> by lazy {
         getContributorsUseCase()
@@ -39,9 +34,5 @@ class ContributorViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = ContributorsUiState.Loading
             )
-    }
-
-    fun navigateBack() = viewModelScope.launch {
-        navigator.navigateBack()
     }
 }
